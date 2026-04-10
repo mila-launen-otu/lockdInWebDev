@@ -1,6 +1,6 @@
-# lockdInWebDev Checklist
+### lockdInWebDev Checklist
 ## Our Project
-LockdIn - Web 
+# LockdIn
 **What is this:** LockdIn is an online studying platform where you can connect with multiple people, coming together to: 
 - Share homework questions
 - Answer homework questions
