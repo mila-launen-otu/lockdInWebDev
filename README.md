@@ -1,6 +1,25 @@
 ### lockdInWebDev Checklist
 ## Our Project
 # LockdIn
+```javascript
+Mila's Updates:
+App.vue now has a component and a router that links all the pages toegther
+Chat.vue links all the chats together
+- might be good to add local storage component to save chat
+
+Questions.vue
+- runs similar to Chat.vue but it saves questions on local storage
+- also has specialized components (note: I added comp. like phone, email just to test out bc idk what to write)
+
+Questions.vue and Chat.vue run on the same server (server js)
+
+HOW TO RUN
+- download server.io and shi to get the server to run
+- I think you ahve to download node.js (if you havent
+
+run backend (the server) by saying some stuff liek "node server.js"
+run frontend
+```
 **What is this:** LockdIn is an online studying platform where you can connect with multiple people, coming together to: 
 - Share homework questions
 - Answer homework questions
