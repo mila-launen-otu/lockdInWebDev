@@ -10,8 +10,24 @@ const io = new Server(server, {
   },
 });
 
+let whiteboardLines = [];
+
 io.on('connection', (socket) => {
   console.log('a user connected', socket.id);
+
+  // Send existing lines to the new client
+  socket.emit('load_whiteboard', whiteboardLines);
+
+  socket.on('draw_line', (line) => {
+    whiteboardLines.push(line);
+    socket.broadcast.emit('draw_line', line);
+  });
+
+  socket.on('clear_whiteboard', () => {
+    whiteboardLines = [];
+    io.emit('clear_whiteboard');
+  });
+
 
   socket.on('send_message', (data) => {
     console.log('Message received:', data);

@@ -18,6 +18,11 @@
           </router-link>
         </li>
         <li>
+          <router-link to="Whiteboard" @click="isMobileMenuOpen = false">
+            Whiteboard
+          </router-link>
+        </li>
+        <li>
           <router-link to="/Grades" @click="isMobileMenuOpen = false">
             Grades
           </router-link>
@@ -46,12 +51,12 @@ const isMobileMenuOpen = ref(false)
 }
 
 .navbar-container {
-  max-width: 1200px;
-  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 1rem;
+  padding: 0 3rem;
 }
 
 .navbar-brand {
