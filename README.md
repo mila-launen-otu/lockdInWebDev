@@ -30,22 +30,34 @@ run frontend
 - Application
 
 ## Requirements
-- [ ] SVG and HTML	1.0 
-- [ ] CSS and CSS frameworks	1.0
-- [ ] JavaScript, jQuery, D3	1.5
-- [ ] Dynamic DOM	1.5
-- [ ] AJAX, web services	1.0
-- [ ] Node.js/Express.js/Nuxt-nitro	1.5
-- [ ] Vue framework	2.5
+- [x] SVG and HTML	1.0
+(whiteboard and html)
+
+- [x] CSS and CSS frameworks	1.0
+(Kendra works on that)
+
+- [x] JavaScript
+
+- [ ] jQuery
+- [x] D3 (Klein grades graph)
+
+- [x] Dynamic DOM	1.5 (Chat)
+
+- [ ] AJAX, web services	1.0 (weather API (IMPLEMENT))
+
+- [x] Node.js/Express.js/Nuxt-nitro	1.5
+  
+- [x] Vue framework	2.5
 
 - [ ] Include Contributors text file: It must list all group members and the elements/aspects each contributed.
 
 ## Promo Video Requirements
+Tmo - Walk through (1pm)
 - [ ]  3-5 minute promo video
   - [ ] highlighting the features you implemented
   - [ ] Please choose a single member of your team to record the video walk-through (I can do this - Mila)
-  - [ ] Each group must include an additional technology not covered in lectures or labs
-      - [ ] Node.js packages, client-side tools, data stores, web services
+  - [x] Each group must include an additional technology not covered in lectures or labs
+      - [x] Node.js packages, client-side tools, data stores, web services
        
 - [ ] Introduction video	4.0
 - [ ] Integration of new technology	1.0
