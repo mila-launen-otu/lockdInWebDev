@@ -1,24 +1,31 @@
-
-
 <template>
-  <div v-if="!username">
-    <h2>Enter your username</h2>
-    <p>Usernames are stored locally in CSV on the backend.</p>
-    <p v-if="availableUsers.length">Stored users: {{ availableUsers.join(', ') }}</p>
 
-    <form @submit.prevent="submitUsername">
-      <input v-model.trim="tempUsername" placeholder="Username" />
-      <button type="submit">Enter</button>
-    </form>
+<div v-if="!username" class="login-page">
+  <div class="login-card">
+    <h2>Enter your username</h2>
+
+<form @submit.prevent="submitUsername" class="login-form">
+  <input v-model.trim="tempUsername" placeholder="Username" class="input-field" />
+  <button type="submit" class="button primary-btn">Enter</button>
+</form>
+
+<p class="info-text">
+  Usernames are stored locally in CSV on the backend.
+</p>
+
+<p v-if="availableUsers.length" class="info-text">
+  Stored users: {{ availableUsers.join(', ') }}
+</p>
 
     <p v-if="error" class="error">{{ error }}</p>
   </div>
+</div>
 
   <div v-else>
     <!-- Change the Bar style here-->
     <div class="bar">
       <h3>Welcome, {{username}}</h3>
-      <button @click="logout">Logout</button>
+      <button @click="logout" class="button logout-btn">Logout</button>
     </div>
 
     
@@ -104,32 +111,77 @@ function logout() {
 }
 
 .error {
-  color: red;
+  color: #ff7b7b;
+  margin-top: 10px;
 }
 
 /* CHANGE AND ADD STYLE HERE* */
+/* ---------- NEW STYLES ---------- */
+
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-form {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.input-field {
+  flex: 1;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.08);
+  color: white;
+}
+
+.input-field::placeholder {
+  color: rgba(255,255,255,0.6);
+}
+
+/* ---------- BAR ---------- */
+
 .bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 15px;
+  padding: 15px;
   width: 100%;
-  box-sizing: border-box;
+  background: rgba(255,255,255,0.08);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
 }
 
-.text {
-  font-size: 24px;
-}
+/* ---------- BUTTONS ---------- */
 
 .button {
-  border: 3px solid black;
-  padding: 8px 25px;
-  font-size: 20px;
-  background: white;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 10px;
   cursor: pointer;
+  font-weight: 600;
 }
 
-.button:hover {
-  background: #ddd;
+.primary-btn {
+  background: #7c4dff;
+  color: white;
+}
+
+.primary-btn:hover {
+  background: #6a3df0;
+}
+
+.logout-btn {
+  background: #2ec4b6;
+  color: #1f1f23;
+}
+
+.logout-btn:hover {
+  background: #25a99d;
 }
 </style>
