@@ -13,12 +13,15 @@
   </div>
 
   <div v-else>
+    <!-- Change the Bar style here-->
+    <div class="bar">
+      <h3>Welcome, {{username}}</h3>
+      <button @click="logout">Logout</button>
+    </div>
 
+    
     <NavBar />
     <router-view />
-    <!--
-    <h1> Welcome, {{ username }}!</h1>
-    <button @click="logout">Logout</button>-->
   </div>
 
 </template>
@@ -66,5 +69,31 @@ function logout() {
 
 .error {
   color: red;
+}
+
+/* CHANGE AND ADD STYLE HERE* */
+.bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.text {
+  font-size: 24px;
+}
+
+.button {
+  border: 3px solid black;
+  padding: 8px 25px;
+  font-size: 20px;
+  background: white;
+  cursor: pointer;
+}
+
+.button:hover {
+  background: #ddd;
 }
 </style>
