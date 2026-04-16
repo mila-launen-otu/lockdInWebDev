@@ -4,6 +4,7 @@ import { ref, watch, onMounted } from "vue"
 import { userState } from './state/user'
 
 const socket = io("http://localhost:3000")
+const currentSocketId = ref('')
 
 const message = ref("")
 const messages = ref([])
@@ -21,6 +22,10 @@ watch(messages, (newMessages) => {
   localStorage.setItem("chat_messages", JSON.stringify(newMessages))
 }, { deep: true })
 
+socket.on("connect", () => {
+  currentSocketId.value = socket.id || ""
+})
+
 // When receiving message
 socket.on("receive_message", (data) => {
   messages.value.push(data)
@@ -28,19 +33,27 @@ socket.on("receive_message", (data) => {
 
 // Send message
 const sendMessage = () => {
-  if (!message.value) return
+  const trimmed = String(message.value || "").trim()
+  if (!trimmed) {
+    return
+  }
 
   const msgData = {
     username: userState.username,
-    text: message.value
+    text: trimmed,
+    senderId: currentSocketId.value,
   }
 
   socket.emit("send_message", msgData)
-
-  // (optional but recommended) add instantly for sender UX
   messages.value.push(msgData)
-
   message.value = ""
+}
+
+const getMessageDisplayName = (msg) => {
+  if (msg?.senderId && msg.senderId === currentSocketId.value) {
+    return 'You'
+  }
+  return msg?.username || 'User'
 }
 </script>
 
@@ -56,6 +69,7 @@ const sendMessage = () => {
     <div v-for="(msg, index) in messages" :key="index">
       <!--each message submitted w username-->
       <strong>{{ msg.username }}:</strong> {{ msg.text }}
+      <strong>{{ getMessageDisplayName(msg) }}:</strong> {{ msg.text || msg }}
     </div>
   </div>
 </template>
