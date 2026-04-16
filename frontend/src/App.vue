@@ -3,6 +3,8 @@
 <template>
   <div v-if="!username">
     <h2>Enter your username</h2>
+    <p>Usernames are stored locally in CSV on the backend.</p>
+    <p v-if="availableUsers.length">Stored users: {{ availableUsers.join(', ') }}</p>
 
     <form @submit.prevent="submitUsername">
       <input v-model.trim="tempUsername" placeholder="Username" />
@@ -28,26 +30,60 @@
 
 <script setup>
 import NavBar from "./components/NavBar.vue"
-import { ref } from "vue"
+import { onMounted, ref } from "vue"
+import axios from 'axios'
 import { userState } from './views/state/user'
 
 const username = ref(localStorage.getItem("username") || "")
 const tempUsername = ref("")
 const error = ref("")
-const tab = ref("home")
+const availableUsers = ref([])
+const backendBaseUrl = 'http://localhost:3000'
+
+userState.username = username.value
+
+function setCurrentUser(nextUsername) {
+  username.value = nextUsername
+  userState.username = nextUsername
+  localStorage.setItem("username", nextUsername)
+  error.value = ""
+}
 
 function submitUsername() {
-  if (!tempUsername.value || tempUsername.value.length < 3) {
+  const nextUsername = String(tempUsername.value || '').trim()
+
+  if (!nextUsername || nextUsername.length < 3) {
     error.value = "Username must be at least 3 characters"
     return
   }
 
-  username.value = tempUsername.value
-  userState.username = username.value
-  localStorage.setItem("username", username.value)
-
-  error.value = ""
+  registerAndEnter(nextUsername)
 }
+
+async function loadStoredUsers() {
+  try {
+    const response = await axios.get(`${backendBaseUrl}/api/users`)
+    availableUsers.value = Array.isArray(response.data?.usernames)
+      ? response.data.usernames
+      : []
+  } catch (_error) {
+    availableUsers.value = []
+  }
+}
+
+async function registerAndEnter(nextUsername) {
+  try {
+    await axios.post(`${backendBaseUrl}/api/users`, { username: nextUsername })
+    await loadStoredUsers()
+    setCurrentUser(nextUsername)
+  } catch (requestError) {
+    error.value = requestError?.response?.data?.message || 'Unable to save username locally.'
+  }
+}
+
+onMounted(() => {
+  loadStoredUsers()
+})
 
 function logout() {
   username.value = ""
