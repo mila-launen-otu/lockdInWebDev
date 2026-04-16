@@ -390,6 +390,15 @@ const buildCourseChart = (course) => {
     totalWeight += weight
   }
 
+  // Prevent saving invalid class configurations above 100% total weight.
+  if (totalWeight > 100) {
+    return {
+      error: `Total class weight is ${totalWeight.toFixed(2)}%. It must be 100% or less.`,
+      savedChart: null,
+      className
+    }
+  }
+
   const weightedPercent = totalWeight > 0 ? weightedSum / totalWeight : 0
 
   return {
@@ -865,7 +874,7 @@ onMounted(() => {
         <p>
           Weighted Grade: {{ course.savedChart.weightedPercent.toFixed(2) }}%
         </p>
-        <p>Total Weight: {{ course.savedChart.totalWeight.toFixed(2) }}%</p>
+        <p>Total Class Weight: {{ course.savedChart.totalWeight.toFixed(2) }}%</p>
 
         <div :ref="(element) => setClassChartContainer(course.id, element)"></div>
 
