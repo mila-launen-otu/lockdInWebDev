@@ -23,7 +23,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('send_messageQA', (data) => {
-  console.log("QA: ",data.name, data.phone, data.email, data.message)
+  console.log("QA: ",data.subject, data.question, data.answer, data.message, data.user)
 
   // data is already the full object, just broadcast it
   io.emit('receive_messageQA', data)

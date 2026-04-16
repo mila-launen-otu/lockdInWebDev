@@ -1,65 +1,153 @@
 <script setup>
 import { ref } from "vue"
 import { io } from "socket.io-client"
+import "./styleQA.css"
+import { userState } from './state/user'
+//import { use } from "react"
 
 const socket = io("http://localhost:3000")
 
-const name = ref("")
-const phone = ref("")
-const email = ref("")
-const message = ref("")
+const subject = ref("")
+const question = ref("")
+const answer = ref("")
 
-// Load messages from localStorage on startup
-const messages = ref(JSON.parse(localStorage.getItem("qa_messages") || "[]"))
+// Load messages safely + initialize missing fields
+const messages = ref(
+  JSON.parse(localStorage.getItem("qa_messages") || "[]").map(m => ({
+    ...m,
+    editing: false,
+    tempAnswer: ""
+  }))
+)
 
+//socket connection 
 socket.on("connect", () => {
-  console.log("✅ Connected:", socket.id)
+  console.log("Connected:", socket.id)
 })
 
+// Receive new messages from server
 socket.on("receive_messageQA", (data) => {
-  messages.value.push(data)
-  // Save to localStorage every time a new message arrives
+  messages.value.push({
+    ...data,
+    editing: false,
+    tempAnswer: ""
+  })
+
   localStorage.setItem("qa_messages", JSON.stringify(messages.value))
 })
 
+// Receive updated answers from ANY client
+socket.on("answer_updated", (data) => {
+  const msg = messages.value.find(m => m.id === data.id)
+
+  if (msg) {
+    msg.Answer = data.answer
+    msg.editing = false
+    msg.tempAnswer = ""
+  }
+
+  localStorage.setItem("qa_messages", JSON.stringify(messages.value))
+})
+
+//send a question to the server (submit the form)
+
 const sendMessageQA = () => {
-  if (!name.value || !email.value || !message.value) return
+  if (!subject.value || !question.value) return
 
-  socket.emit("send_messageQA", {
-    name: name.value,
-    phone: phone.value,
-    email: email.value,
-    message: message.value
-  })
+  const newMsg = {
+    id: crypto.randomUUID(),
+    Date: new Date().toISOString(),
+    Subject: subject.value,
+    Question: question.value,
+    Answer: answer.value || 'N/A',
 
-  name.value = ""
-  phone.value = ""
-  email.value = ""
-  message.value = ""
+  }
+
+  socket.emit("send_messageQA", newMsg)
+
+  subject.value = ""
+  question.value = ""
+  answer.value = ""
 }
 
-// Optional: clear all saved messages
+// clear all the questions
+
 const clearMessages = () => {
   messages.value = []
   localStorage.removeItem("qa_messages")
 }
+
+// edit the answer 
+
+const startEdit = (msg) => {
+  msg.editing = true
+  msg.tempAnswer = msg.Answer
+}
+
+const saveAnswer = (msg) => {
+  msg.Answer = msg.tempAnswer
+  msg.editing = false
+
+  socket.emit("update_answer", {
+    id: msg.id,
+    answer: msg.Answer,
+    user: msg.user
+  })
+
+  localStorage.setItem("qa_messages", JSON.stringify(messages.value))
+}
 </script>
 
 <template>
-  <div>
-    <input v-model="name" placeholder="Name" />
-    <input v-model="phone" placeholder="Phone" />
-    <input v-model="email" placeholder="Email" />
-    <input v-model="message" placeholder="Message" />
-    <button @click="sendMessageQA">Send</button>
-    <button @click="clearMessages">Clear</button>
+  
+  <div class="container"> 
+    
+    <div class="forumPanel scroll-box">
+      <!-- Put the submitted questions here-->
 
-    <div v-for="(msg, index) in messages" :key="index">
-      <p><strong>Name:</strong> {{ msg.name }}</p>
-      <p><strong>Phone:</strong> {{ msg.phone }}</p>
-      <p><strong>Email:</strong> {{ msg.email }}</p>
-      <p><strong>Message:</strong> {{ msg.message }}</p>
-      <hr />
+        <!--START OF SUBMISSION-->
+      <div v-for="msg in messages" :key="msg.id">
+        <div :class="['msg-card', msg.Answer === 'N/A' ? 'msg-card.red-bg' : 'msg-card.green-bg']">
+          <!-- Display the message details here -->
+              <p class = "qa-text"><strong>Date:</strong> {{ new Date(msg.Date).toLocaleString() }}</p>
+              <p class = "qa-text"><strong>Subject:</strong> {{ msg.Subject }}</p>
+              <p class = "qa-text"><strong>Question:</strong> {{ msg.Question }}</p>
+
+              <div v-if="msg.editing">
+                <input v-model="msg.tempAnswer" />
+                <button class="aero color-green" @click="saveAnswer(msg)">Save</button>
+              </div>
+
+              <div v-else-if="msg.Answer === 'N/A'">
+                <button class="aero color-green" @click="startEdit(msg)">Solve Me!</button>
+              </div>
+
+              <div v-else>
+                <p><strong>Answer:</strong></p>
+                {{ msg.Answer }}
+                <button class= "aero color-blue" @click="startEdit(msg)">Edit Answer</button>
+              </div>
+
+        </div>
+
+      </div>
+      <!--END OF SUBMISSION-->
+
+    </div>
+
+    <div class = "inputPanel hover-button">
+      <!-- Put the input fields here-->
+
+      <input class="input" v-model="subject" placeholder="Subject" />
+      <input class="input" v-model="question" placeholder="Question" />
+      <input class="textarea" v-model="answer" placeholder="Answer" />
+
+      <div class = "buttons">
+        <button class="aero color-green" @click="sendMessageQA">Send</button>
+        <button class="aero color-red" @click="clearMessages">Clear</button>
+      </div>
+      
+
     </div>
   </div>
 </template>
