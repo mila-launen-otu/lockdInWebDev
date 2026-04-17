@@ -100,11 +100,46 @@ h1, h2, h3, .VPHero .name, .VPHero .tagline {
   -webkit-backdrop-filter: blur(12px);
 }
 
-.VPNavBar .title {
-  font-family: var(--font-family-heading) !important;
-  font-weight: 700;
-  font-size: 1.1rem;
-  letter-spacing: -0.01em;
+.VPNavBarTitle .title {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: auto;
+}
+
+.VPNavBarTitle .title span {
+  display: none;
+}
+
+.VPNavBarTitle .logo {
+  filter: invert(1);
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.dark .VPNavBarTitle .logo {
+  filter: invert(0);
+  flex-shrink: 0;
+}
+
+.VPNavBarTitle::after {
+  content: '';
+  display: inline-block;
+  background-image: url('/hero.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 90px;
+  height: 35px;
+  margin-left: 8px;
+  vertical-align: middle;
+  filter: invert(0);
+  transition: filter 0.2s ease;
+  flex-shrink: 0;
+}
+
+.dark .VPNavBarTitle::after {
+  filter: invert(1);
+  flex-shrink: 0;
 }
 
 /* =============================================

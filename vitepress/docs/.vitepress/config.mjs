@@ -1,7 +1,7 @@
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({
-  title: 'LockdIn',
+  title: 'LockdIn²',
   description: 'The collaborative study platform — lock in, level up.',
   lang: 'en-US',
   ignoreDeadLinks: true,
@@ -15,14 +15,14 @@ export default defineConfig({
 
   themeConfig: {
     logo: '/favicon.svg',
-    siteTitle: 'LockdIn²',
+    siteTitle: false,
 
     nav: [
       { text: 'Home', link: '/' },
       {
         text: 'About',
         items: [
-          { text: 'About LockdIn', link: '/about/lockdin' },
+          { text: 'About LockdIn²', link: '/about/lockdin' },
           { text: 'Contributors', link: '/about/contributors' },
         ]
       },
