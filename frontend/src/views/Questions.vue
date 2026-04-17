@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from "vue"
 import { io } from "socket.io-client"
-import "./styleQA.css"
+import "./styleQa.css"
 import { userState } from './state/user'
 //import { use } from "react"
 
@@ -99,61 +99,62 @@ const saveAnswer = (msg) => {
 </script>
 
 <template>
-  
-  <div class="container"> 
-    
-    <div class="forumPanel scroll-box">
-      <!-- all of the submitted questions (left)-->
-      <!--basically says: loop through all the messages (the div that holds the messages)-->
-      <div v-for="msg in messages" :key="msg.id">
+  <div class="questions-page">
+    <h1 class="page-title">Questions</h1>
+    <div class="container"> 
+      
+      <div class="forumPanel glass-panel scroll-box">
+        <!-- all of the submitted questions (left)-->
+        <!--basically says: loop through all the messages (the div that holds the messages)-->
+        <div v-for="msg in messages" :key="msg.id">
 
-        <!--A Specific message, msg-cardr->background red; msg-cardg->background green-->
-        <div :class="msg.Answer === 'N/A' ? 'msg-cardr' : 'msg-cardg'">
-          <!-- Display the message details here -->
-              <p class = "qa-text"><strong>Date:</strong> {{ new Date(msg.Date).toLocaleString() }}</p>
-              <p class = "qa-text"><strong>Subject:</strong> {{ msg.Subject }}</p>
-              <p class = "qa-text"><strong>Question:</strong> {{ msg.Question }}</p>
+          <!--A Specific message, msg-cardr->background red; msg-cardg->background green-->
+          <div :class="msg.Answer === 'N/A' ? 'msg-cardr' : 'msg-cardg'">
+            <!-- Display the message details here -->
+                <p class = "qa-text"><strong>Date:</strong> {{ new Date(msg.Date).toLocaleString() }}</p>
+                <p class = "qa-text"><strong>Subject:</strong> {{ msg.Subject }}</p>
+                <p class = "qa-text"><strong>Question:</strong> {{ msg.Question }}</p>
 
-              <!--mid editinf message-->
-              <div v-if="msg.editing">
-                <input v-model="msg.tempAnswer" />
-                <button class="aero color-green" @click="saveAnswer(msg)">Save</button>
-              </div>
+                <!--mid editing message-->
+                <div v-if="msg.editing" class="buttons">
+                  <input class="input" v-model="msg.tempAnswer" />
+                  <button class="aero color-green" @click="saveAnswer(msg)">Save</button>
+                </div>
 
-              <!-- if the answer is blank button "Solve Me!" appears-->
-              <div v-else-if="msg.Answer === 'N/A'">
-                <button class="aero color-green" @click="startEdit(msg)">Solve Me!</button>
-              </div>
+                <!-- if the answer is blank button "Solve Me!" appears-->
+                <div v-else-if="msg.Answer === 'N/A'">
+                  <button class="aero color-green" @click="startEdit(msg)">Solve Me!</button>
+                </div>
 
-              <!-- NEED WORK-LOOKS CHOPPED: shows the answer but you can edit it-->
-              <div v-else>
-                <p><strong>Answer:</strong></p>
-                {{ msg.Answer }}
-                <button class= "aero color-blue" @click="startEdit(msg)">Edit Answer</button>
-              </div>
+                <!-- NEED WORK-LOOKS CHOPPED: shows the answer but you can edit it-->
+                <div v-else>
+                  <p class="qa-text"><strong>Answer:</strong></p>
+                  <p class="qa-text">{{ msg.Answer }}</p>
+                  <button class="aero color-blue" @click="startEdit(msg)">Edit Answer</button>
+                </div>
 
+          </div>
+
+        </div>
+        <!--END OF SUBMISSION-->
+
+      </div>
+
+      <!--panel that holds all the input fields-->
+      <div class="inputPanel glass-panel">
+        <!-- input fields here-->
+
+        <input class="input" v-model="subject" placeholder="Subject" />
+        <input class="input" v-model="question" placeholder="Question" />
+        <input class="textarea" v-model="answer" placeholder="Answer" />
+
+        <!-- buttons to submit/clear -->
+        <div class = "buttons">
+          <button class="aero color-green" @click="sendMessageQA">Send</button>
+          <button class="aero color-red" @click="clearMessages">Clear</button>
         </div>
 
       </div>
-      <!--END OF SUBMISSION-->
-
-    </div>
-
-    <!--panel that holds all the input fields-->
-    <div class = "inputPanel hover-button">
-      <!-- input fields here-->
-
-      <input class="input" v-model="subject" placeholder="Subject" />
-      <input class="input" v-model="question" placeholder="Question" />
-      <input class="textarea" v-model="answer" placeholder="Answer" />
-
-      <!-- buttons to submit/clear -->
-      <div class = "buttons">
-        <button class="aero color-green" @click="sendMessageQA">Send</button>
-        <button class="aero color-red" @click="clearMessages">Clear</button>
-      </div>
-      
-
     </div>
   </div>
 </template>

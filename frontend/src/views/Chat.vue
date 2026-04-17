@@ -80,8 +80,8 @@ const isOwnMessage = (msg) => {
   <div class="chat-page">
     <div class="chat-card">
       <div class="chat-header">
-        <h1>Real-time Chat</h1>
-        <p class="chat-subtext">Chat live with other users in the app.</p>
+        <h1 class="page-title">Real-time Chat</h1>
+        <p class="subtitle">Chat live with other users in the app.</p>
       </div>
 
       <!--div for all the messages-->

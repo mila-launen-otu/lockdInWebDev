@@ -869,10 +869,10 @@ onMounted(() => {
         </tbody>
       </table>
 
-      <p>
+      <div class="button-row">
         <button type="button" @click="addAssignment(courseIndex)">Add Assignment</button>
         <button type="button" @click="saveClass(courseIndex)">Save</button>
-      </p>
+      </div>
 
       <p v-if="course.error" class="error-text">{{ course.error }}</p>
 
@@ -974,6 +974,8 @@ hr {
 
 .button-row {
   margin-top: 20px;
+  display: flex;
+  gap: 20px; 
 }
 
 .add-class-row {
