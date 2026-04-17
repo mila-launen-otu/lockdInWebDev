@@ -1,78 +1,86 @@
-### lockdInWebDev Checklist
-## Our Project
-# LockdIn
-```javascript
-Mila's Updates:
-App.vue now has a component and a router that links all the pages toegther
-Chat.vue links all the chats together
-- might be good to add local storage component to save chat
+# LockdIn²
 
-Questions.vue
-- runs similar to Chat.vue but it saves questions on local storage
-- also has specialized components (note: I added comp. like phone, email just to test out bc idk what to write)
+## Project Description
+LockdIn² is an online study platform designed to help students collaborate and stay organized. Users can:
+- Chat with other users in real time
+- Post homework questions
+- Answer questions from other users
+- Track grades and calculate GPA
 
-Questions.vue and Chat.vue run on the same server (server js)
+---
 
-HOW TO RUN
-- download server.io and shi to get the server to run
-- I think you ahve to download node.js (if you havent
+## Features
+- Real-time chat using Socket.IO  
+- Question & answer system with editable responses  
+- Grades tracker with GPA calculation  
+- Persistent data using browser localStorage  
+- Modern UI with glassmorphism styling (purple/teal theme)
 
-run backend (the server) by saying some stuff liek "node server.js"
-run frontend
+---
+
+## Technologies Used
+- Vue.js  
+- Node.js  
+- Express.js  
+- Socket.IO  
+- D3.js  
+- localStorage  
+- HTML  
+- CSS  
+- JavaScript  
+
+---
+
+## Requirements
+Make sure you have the following installed:
+- Node.js  
+- npm (comes with Node)
+
+---
+
+## How to Run the Web App
+
+### 1. Start the Backend
+```bash
+cd lockdInWebDev/backend
+npm install
+node server.js
 ```
 
-HOW TO RUN vitepress documentation site on LockdIn²
+### 2. Start the Frontend
+```bash
+cd lockdInWebDev/frontend
+npm install
+npm run dev
 ```
-cd vitepress
+
+### 3. Open in Browser
+Open the link shown in the terminal (usually http://localhost:5173)
+
+---
+
+## Notes
+- Chat and Questions features run on the same backend server  
+- Data is partially stored using browser localStorage  
+- Socket.IO enables real-time communication between users  
+
+---
+
+## Documentation (VitePress)
+
+To run the documentation site:
+
+```bash
+cd lockdInWebDev/vitepress
 npm install
 npm run docs:dev
 ```
 
-**What is this:** LockdIn is an online studying platform where you can connect with multiple people, coming together to: 
-- Share homework questions
-- Answer homework questions
-- Chat with users
+---
 
-**What you'll find here**
-- Vitepress About Us
-- Application
-
-## Requirements
-- [x] SVG and HTML	1.0
-(whiteboard and html)
-
-- [x] CSS and CSS frameworks	1.0
-(Kendra works on that)
-
-- [x] JavaScript
-
-- [ ] jQuery
-- [x] D3 (Klein grades graph)
-
-- [x] Dynamic DOM	1.5 (Chat)
-
-- [ ] AJAX, web services	1.0 (weather API (IMPLEMENT))
-
-- [x] Node.js/Express.js/Nuxt-nitro	1.5
-  
-- [x] Vue framework	2.5
-
-- [ ] Include Contributors text file: It must list all group members and the elements/aspects each contributed.
-
-## Promo Video Requirements
-Tmo - Walk through (1pm)
-- [ ]  3-5 minute promo video
-  - [ ] highlighting the features you implemented
-  - [ ] Please choose a single member of your team to record the video walk-through (I can do this - Mila)
-  - [x] Each group must include an additional technology not covered in lectures or labs
-      - [x] Node.js packages, client-side tools, data stores, web services
-       
-- [ ] Introduction video	4.0
-- [ ] Integration of new technology	1.0
-
-## Upload Requirements
-- [ ] **group_members.html** → List of members in your group, with their BannerID
-- [ ] **contributions.txt**	→ List of all group members, and their specific contributions to the project
-- [ ] **readme.txt**	→ Instructions on how to run your web app
-- [ ] **intro.mp4**	→ Overview that shows your app running.
-- [ ] **ai-prompts.txt** → A list of AI prompts used in the assignment
+## Submission Files
+- group_members.html → List of group members and Banner IDs  
+- contributions.txt → Description of each member’s contributions  
+- README.md → Instructions on how to run the project  
+- intro.mp4 → Project walkthrough video
+- ai-prompts.txt → A list of AI prompts used in the assignment
