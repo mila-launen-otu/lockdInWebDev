@@ -20,7 +20,7 @@ LockdIn² is built around **four core features** that power collaborative studyi
     </ul>
   </div>
   <div>
-    <img src="/hero.svg" alt="LockdIn² Chat Feature" />
+    <img src="/chat.png" alt="LockdIn² Chat Feature" />
   </div>
 </div>
 
@@ -30,7 +30,7 @@ LockdIn² is built around **four core features** that power collaborative studyi
 
 <div class="feature-card reverse">
   <div>
-    <img src="/hero.svg" alt="LockdIn² Whiteboard Feature" />
+    <img src="/whiteboard.png" alt="LockdIn² Whiteboard Feature" />
   </div>
   <div class="feature-text">
     <span class="feature-badge">Live • SVG • Socket.IO</span>
@@ -67,7 +67,7 @@ LockdIn² is built around **four core features** that power collaborative studyi
     </ul>
   </div>
   <div>
-    <img src="/hero.svg" alt="LockdIn² Questions Feature" />
+    <img src="/questions.png" alt="LockdIn² Questions Feature" />
   </div>
 </div>
 
@@ -77,7 +77,7 @@ LockdIn² is built around **four core features** that power collaborative studyi
 
 <div class="feature-card reverse">
   <div>
-    <img src="/hero.svg" alt="LockdIn Grades Feature" style="padding: 16px;" />
+    <img src="/grades.png" alt="LockdIn Grades Feature" style="padding: 16px;" />
   </div>
   <div class="feature-text">
     <span class="feature-badge">Live • D3.js • REST API • CSV</span>
