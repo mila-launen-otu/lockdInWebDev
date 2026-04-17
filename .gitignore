@@ -18,3 +18,7 @@ yarn-error.log*
 # Environment variables (Crucial for security later)
 .env
 .env.local
+
+# VitePress cache
+.vitepress/cache/
+.vitepress/dist/
