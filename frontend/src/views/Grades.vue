@@ -478,14 +478,21 @@ const renderClassGradeChart = (course, container) => {
     return
   }
 
-  const margin = { top: 24, right: 24, bottom: 70, left: 56 }
-  const width = 800 - margin.left - margin.right
-  const height = 280 - margin.top - margin.bottom
+  const margin = { top: 24, right: 18, bottom: 72, left: 48 }
+  const outerWidth = Math.max(container.clientWidth || 0, 280)
+  const outerHeight = 280
+  const width = Math.max(outerWidth - margin.left - margin.right, 120)
+  const height = Math.max(outerHeight - margin.top - margin.bottom, 120)
 
   const svg = d3.select(container)
     .append('svg')
-    .attr('width', width + margin.left + margin.right)
-    .attr('height', height + margin.top + margin.bottom)
+    .attr('width', outerWidth)
+    .attr('height', outerHeight)
+    .attr('viewBox', `0 0 ${outerWidth} ${outerHeight}`)
+    .attr('preserveAspectRatio', 'xMidYMid meet')
+    .style('display', 'block')
+    .style('width', '100%')
+    .style('height', 'auto')
     .append('g')
     .attr('transform', `translate(${margin.left},${margin.top})`)
 
@@ -775,8 +782,8 @@ onMounted(() => {
   <main class="grades-page">
     <div class="glass-panel top-summary">
     <h1>Grades</h1>
-    <p>Logged in as: {{ currentUsername }}</p>
-    <p>Overall GPA (saved classes): {{ overallGpa.toFixed(2) }}</p>
+    <p>Showing grades for: {{ currentUsername }}</p>
+    <p>Overall GPA: {{ overallGpa.toFixed(2) }}</p>
 
     <p v-if="csvGrades.loading">Loading grades from CSV...</p>
     <p v-if="csvGrades.error" class="error-text">{{ csvGrades.error }}</p>
@@ -786,18 +793,18 @@ onMounted(() => {
 
   <div class="glass-panel">
     <h2>GPA Weighting Options</h2>
-    <p>Adjust letter cutoffs and GPA points below. These settings apply to all classes.</p>
+    <p>Modify the GPA points and letter cutoffs below. These settings will apply to all classes.</p>
 
     <p>
-      <label for="new-gpa-letter">Add Letter: </label>
-      <input id="new-gpa-letter" v-model="newLetterInput" type="text" maxlength="3" placeholder="e.g. E">
+      <label for="new-gpa-letter">Add Letter Grade: </label>
+      <input id="new-gpa-letter" v-model="newLetterInput" type="text" maxlength="3" placeholder="e.g. A">
       <button type="button" @click="addGpaLetter">Add Letter</button>
     </p>
     <table border="1" cellpadding="6" cellspacing="0">
       <thead>
         <tr>
-          <th>Letter</th>
-          <th>Minimum Percent</th>
+          <th>Grade</th>
+          <th>Minimum Percentage</th>
           <th>GPA Points</th>
         </tr>
       </thead>
@@ -817,7 +824,7 @@ onMounted(() => {
     </table>
     
     <p class="button-row">
-      <button type="button" @click="saveGpaScale">Save GPA Settings</button>
+      <button type="button" @click="saveGpaScale">Save GPA Weighting Settings</button>
     </p>
 
     <p v-if="gpaScaleError" class="error-text">{{ gpaScaleError }}</p>
@@ -825,9 +832,9 @@ onMounted(() => {
   </div>
 
     <div class="glass-panel add-class-row">
-      <label for="new-class-name">New Class Name: </label>
-      <input id="new-class-name" v-model="classNameInput" type="text" placeholder="e.g. Database Systems">
-      <button type="button" @click="addClass">Add Class</button>
+      <label for="new-class-name">Add New Class: </label>
+      <input id="new-class-name" v-model="classNameInput" type="text" placeholder="e.g. Web Dev">
+      <button type="button" @click="addClass">Add New Class</button>
     </div>
 
     <hr>
@@ -888,27 +895,6 @@ onMounted(() => {
         <p>Total Class Weight: {{ course.savedChart.totalWeight.toFixed(2) }}%</p>
 
         <div :ref="(element) => setClassChartContainer(course.id, element)"></div>
-
-        <table border="1" cellpadding="6" cellspacing="0">
-          <thead>
-            <tr>
-              <th>Assignment</th>
-              <th>Percent</th>
-              <th>Weight</th>
-              <th>Bar</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="row in course.savedChart.rows" :key="`${course.id}-${row.title}`">
-              <td>{{ row.title }}</td>
-              <td>{{ row.percent.toFixed(2) }}%</td>
-              <td>{{ row.weight.toFixed(2) }}%</td>
-              <td>
-                <progress :value="row.percent" max="100"></progress>
-              </td>
-            </tr>
-          </tbody>
-        </table>
       </div>
 
       <p v-else class="empty-text">Click Save to generate this class chart.</p>
