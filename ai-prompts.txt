@@ -1,0 +1,9 @@
+Does this file include the use of jQuery?
+How to make a watermark in VitePress?
+How to fix the alignment of the watermark in VitePress to be beside the logo?
+How to make canvas of whiteboard whole page?
+What are some ways to implement API widgets?
+What is the best way to dynamically track messages on a server html page?
+Please find hex codes of the following colours will go well together: black, white, gray, teal, purple.
+Write test cases for grade calculator logic, including cases like total weight > 100.
+What are some ways to implement a video into Vitepress?
