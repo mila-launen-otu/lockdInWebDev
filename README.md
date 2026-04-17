@@ -34,7 +34,17 @@ LockdIn² is an online study platform designed to help students collaborate and 
 ## Requirements
 Make sure you have the following installed:
 - Node.js  
-- npm (comes with Node)
+- npm
+- jquery
+
+## Test Users
+
+For testing purposes, you can use the following usernames:
+
+- user1  
+- user2 
+
+These users may already have pre-filled data (such as grades), allowing you to quickly test features without needing to input everything manually.
 
 ---
 
