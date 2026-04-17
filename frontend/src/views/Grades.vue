@@ -772,18 +772,22 @@ onMounted(() => {
 </script>
 
 <template>
-  <main>
+  <main class="grades-page">
+    <div class="glass-panel top-summary">
     <h1>Grades</h1>
     <p>Logged in as: {{ currentUsername }}</p>
     <p>Overall GPA (saved classes): {{ overallGpa.toFixed(2) }}</p>
 
     <p v-if="csvGrades.loading">Loading grades from CSV...</p>
-    <p v-if="csvGrades.error">{{ csvGrades.error }}</p>
+    <p v-if="csvGrades.error" class="error-text">{{ csvGrades.error }}</p>
+  </div>
 
-    <hr>
+  <hr>
 
+  <div class="glass-panel">
     <h2>GPA Weighting Options</h2>
     <p>Adjust letter cutoffs and GPA points below. These settings apply to all classes.</p>
+
     <p>
       <label for="new-gpa-letter">Add Letter: </label>
       <input id="new-gpa-letter" v-model="newLetterInput" type="text" maxlength="3" placeholder="e.g. E">
@@ -811,13 +815,16 @@ onMounted(() => {
         </tr>
       </tbody>
     </table>
-    <p>
+    
+    <p class="button-row">
       <button type="button" @click="saveGpaScale">Save GPA Settings</button>
     </p>
-    <p v-if="gpaScaleError">{{ gpaScaleError }}</p>
-    <p v-if="gpaScaleSavedMessage">{{ gpaScaleSavedMessage }}</p>
 
-    <div>
+    <p v-if="gpaScaleError" class="error-text">{{ gpaScaleError }}</p>
+    <p v-if="gpaScaleSavedMessage" class="success-text">{{ gpaScaleSavedMessage }}</p>
+  </div>
+
+    <div class="glass-panel add-class-row">
       <label for="new-class-name">New Class Name: </label>
       <input id="new-class-name" v-model="classNameInput" type="text" placeholder="e.g. Database Systems">
       <button type="button" @click="addClass">Add Class</button>
@@ -825,7 +832,11 @@ onMounted(() => {
 
     <hr>
 
-    <section v-for="(course, courseIndex) in student.classes" :key="course.id">
+    <section 
+      v-for="(course, courseIndex) in student.classes" 
+      :key="course.id" 
+      class="class-card glass-panel"
+>
       <h2>
         Class:
         <input v-model="course.name" type="text" placeholder="Class Name">
@@ -863,7 +874,7 @@ onMounted(() => {
         <button type="button" @click="saveClass(courseIndex)">Save</button>
       </p>
 
-      <p v-if="course.error">{{ course.error }}</p>
+      <p v-if="course.error" class="error-text">{{ course.error }}</p>
 
       <div v-if="course.savedChart">
         <h3>{{ course.name || 'Untitled Class' }} Chart</h3>
@@ -900,9 +911,199 @@ onMounted(() => {
         </table>
       </div>
 
-      <p v-else>Click Save to generate this class chart.</p>
+      <p v-else class="empty-text">Click Save to generate this class chart.</p>
 
       <hr>
     </section>
   </main>
 </template>
+
+<style scoped>
+.grades-page {
+  min-height: 100vh;
+  padding: 3.5rem 2rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.glass-panel {
+  position: relative;
+  padding: 1.5rem;
+  margin-bottom: 25px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.28);
+}
+
+.glass-panel::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  z-index: -1;
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(124, 77, 255, 0.28), transparent 40%),
+    radial-gradient(circle at 80% 80%, rgba(46, 196, 182, 0.22), transparent 40%);
+  filter: blur(22px);
+}
+
+h1,
+h2,
+h3 {
+  margin: 0 0 0.75rem 0;
+  color: white;
+}
+
+p,
+label {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+hr {
+  border: none;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.12);
+  margin: 0;
+}
+
+.button-row {
+  margin-top: 20px;
+}
+
+.add-class-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  font-size: 1rem;
+}
+
+.add-class-row label {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.add-class-row input {
+  font-size: 0.95rem;
+}
+
+.add-class-row button {
+  font-size: 0.95rem;
+}
+
+.top-summary {
+  text-align: center;
+}
+
+.top-summary p {
+  margin-top: 0.5rem;
+}
+
+input {
+  padding: 0.8rem 0.95rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+  outline: none;
+}
+
+input::placeholder {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+input:focus {
+  border-color: #7c4dff;
+  box-shadow: 0 0 0 3px rgba(124, 77, 255, 0.18);
+}
+
+button {
+  border: none;
+  padding: 0.8rem 1.1rem;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  background: #7c4dff;
+  color: white;
+  transition: 0.2s ease;
+}
+
+button:hover {
+  background: #6a3df0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+th,
+td {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.85rem;
+  text-align: left;
+  color: white;
+}
+
+th {
+  background: rgba(124, 77, 255, 0.16);
+  font-weight: 700;
+}
+
+tr:nth-child(even) td {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.class-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.error-text {
+  color: #ff8c8c;
+}
+
+.success-text {
+  color: #7ff0c8;
+}
+
+.empty-text {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+progress {
+  width: 100%;
+  height: 14px;
+}
+
+@media (max-width: 768px) {
+  .grades-page {
+    padding: 2rem 1rem 1rem;
+  }
+
+  .glass-panel {
+    padding: 1rem;
+  }
+
+  table {
+    display: block;
+    overflow-x: auto;
+  }
+
+  input,
+  button {
+    width: 100%;
+  }
+}
+</style>
