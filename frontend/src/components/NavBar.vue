@@ -3,8 +3,8 @@
 <template>
   <nav class="navbar">
     <div class="navbar-container">
-      <router-link to="/" class="navbar-brand">
-        LockdIn²
+      <router-link to="/home" class="navbar-brand">
+        <img src="/lockin2white.png" alt="LockIn Logo" class="navbar-logo" />
       </router-link>
 
       <button @click="isMobileMenuOpen = !isMobileMenuOpen" class="navbar-toggle">
@@ -64,6 +64,13 @@ const isMobileMenuOpen = ref(false)
   font-weight: bold;
   color: white;
   text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-logo {
+  height: 28px;
+  width: auto;
 }
 
 .navbar-toggle {
