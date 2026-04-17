@@ -4,8 +4,10 @@ import Chat from '../views/Chat.vue'
 import Grades from '../views/Grades.vue'
 import Questions from '../views/Questions.vue'
 import Whiteboard from '../views/Whiteboard.vue'
+import Home from '../views/Home.vue'
 
 const routes = [
+    { path: '/home', component: Home },
     { path: '/chat', component: Chat },
     { path: '/grades', component: Grades },
     { path: '/questions', component: Questions },

@@ -27,6 +27,9 @@
 </template>
 
 <script setup>
+//this is for the automatic view of home, different from all the other views
+import { useRouter } from "vue-router"
+
 import NavBar from "./components/NavBar.vue"
 import { ref } from "vue"
 import { userState } from './views/state/user'
@@ -35,6 +38,8 @@ const username = ref(localStorage.getItem("username") || "")
 const tempUsername = ref("")
 const error = ref("")
 const tab = ref("home")
+
+const router = useRouter()
 
 function submitUsername() {
   if (!tempUsername.value || tempUsername.value.length < 3) {
@@ -47,6 +52,9 @@ function submitUsername() {
   localStorage.setItem("username", username.value)
 
   error.value = ""
+
+  //set automatic redirect to home page after login
+  router.push("/home")
 }
 
 function logout() {

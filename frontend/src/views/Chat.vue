@@ -16,7 +16,7 @@ onMounted(() => {
   }
 })
 
-// SAVE to localStorage whenever messages change
+// save to localStorage whenever messages change
 watch(messages, (newMessages) => {
   localStorage.setItem("chat_messages", JSON.stringify(newMessages))
 }, { deep: true })
@@ -37,8 +37,6 @@ const sendMessage = () => {
 
   socket.emit("send_message", msgData)
 
-  // (optional but recommended) add instantly for sender UX
-  messages.value.push(msgData)
 
   message.value = ""
 }
