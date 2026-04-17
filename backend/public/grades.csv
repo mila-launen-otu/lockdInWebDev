@@ -1,33 +1,43 @@
 username,class,assignment,score,weight
-user1,Data Structures,Lab 1,85,25
-user1,Data Structures,Lab 2,88,25
-user1,Data Structures,Exam 1,82,25
-user1,Data Structures,Exam 2,86,25
-user1,Database Systems,Assignment 1,91,25
-user1,Database Systems,Assignment 2,89,25
-user1,Database Systems,Midterm,87,25
-user1,Database Systems,Final Project,94,25
-user1,Web Development,HTML/CSS,96,25
-user1,Web Development,JavaScript,93,25
-user1,Web Development,React Component,98,25
-user1,Web Development,Final Project,97,25
-user2,Data Structures,Lab 1,72,25
-user2,Data Structures,Lab 2,75,25
-user2,Data Structures,Exam 1,79,25
-user2,Data Structures,Exam 2,74,25
-user2,Database Systems,Assignment 1,88,25
-user2,Database Systems,Assignment 2,90,25
-user2,Database Systems,Midterm,86,25
-user2,Database Systems,Final Project,92,25
-user2,Web Development,HTML/CSS,83,25
-user2,Web Development,JavaScript,85,25
-user2,Web Development,React Component,87,25
-user2,Web Development,Final Project,89,25
-user2,Advanced Algorithms,Quiz 1,78,25
-user2,Advanced Algorithms,Midterm,81,25
-user2,Advanced Algorithms,Project 1,84,25
-user2,Advanced Algorithms,Final Exam,80,25
-user1,Advanced Algorithms,Quiz 1,50,25
-user1,Advanced Algorithms,Midterm,88,25
-user1,Advanced Algorithms,Project 1,95,25
-user1,Advanced Algorithms,Final Exam,90,25
+user1,Analysis and Design of Algorithms,Quiz 1,80,25
+user1,Analysis and Design of Algorithms,Quiz 2,76.5,25
+user1,Analysis and Design of Algorithms,Assignment 1,100,10
+user1,Analysis and Design of Algorithms,Assignment 2,98.88,10
+user1,Analysis and Design of Algorithms,Final Exam,80.5,15
+user1,Simulation and Modelling,Assignment 1,50,25
+user1,Simulation and Modelling,Assignment 2,90,25
+user1,Simulation and Modelling,Midterm,67,25
+user1,Simulation and Modelling,Final Exam,92,25
+user1,Computer Vision,Labs,85,25
+user1,Computer Vision,Midterm,88,25
+user1,Computer Vision,Final Project,95,25
+user1,Computer Vision,Final Exam,90,25
+user1,Mobile Devices,Labs,98,25
+user1,Mobile Devices,Project,95,40
+user1,Mobile Devices,Final Exam,76.44,35
+user1,Calculus III,Midterm,85,25
+user1,Calculus III,Tutorials,100,15
+user1,Calculus III,Quizzes,90,15
+user1,Calculus III,Final Exam,90.5,45
+user2,"Ethics, Law and the Social Impacts of Computing",Seminar Presentation,88,22
+user2,"Ethics, Law and the Social Impacts of Computing",Discussions,100,10
+user2,"Ethics, Law and the Social Impacts of Computing",Dilemmas,100,10
+user2,"Ethics, Law and the Social Impacts of Computing",Case Analysis,92.5,20
+user2,"Ethics, Law and the Social Impacts of Computing",Midterm,80,20
+user2,"Ethics, Law and the Social Impacts of Computing",Peer Seminar Grade,92,3
+user2,"Ethics, Law and the Social Impacts of Computing",Participation,40,5
+user2,"Ethics, Law and the Social Impacts of Computing",Peer Feedback (Individual),100,10
+user2,"Machine Learning, Theory and Application",Quizzes & Labs,100,15
+user2,"Machine Learning, Theory and Application",Assignments,95.83,30
+user2,"Machine Learning, Theory and Application",Test1,55.6,15
+user2,"Machine Learning, Theory and Application",Test 2,56,15
+user2,"Machine Learning, Theory and Application",Group Project,80,25
+user2,Biostatistics,Assignments,84.75,10
+user2,Biostatistics,Online Class Activities,77.77,9
+user2,Biostatistics,Final Project,76,12
+user2,Biostatistics,Final Project Presentation,100,5
+user2,Biostatistics,Final Exam,64,64
+user2,Differential Equations,Midterm,84.28,25
+user2,Differential Equations,Assignments + Presentations,97.72,15
+user2,Differential Equations,Quizzes,67,10
+user2,Differential Equations,Final Exam,80,50

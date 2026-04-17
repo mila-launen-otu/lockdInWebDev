@@ -108,7 +108,6 @@ const sortGpaScaleByGradeOrder = () => {
   gpaScale.sort((a, b) => {
     const aParts = getGradeSortParts(a.letter)
     const bParts = getGradeSortParts(b.letter)
-
     if (aParts.baseRank !== bParts.baseRank) {
       return aParts.baseRank - bParts.baseRank
     }
@@ -172,6 +171,7 @@ const validateGpaScale = () => {
       gpaScaleError.value = `Invalid GPA points for ${row.letter}. Use 0 or higher.`
       return false
     }
+
   }
 
   return true
@@ -478,9 +478,9 @@ const renderClassGradeChart = (course, container) => {
     return
   }
 
-  const margin = { top: 24, right: 18, bottom: 72, left: 48 }
+  const margin = { top: 24, right: 18, bottom: 110, left: 56 }
   const outerWidth = Math.max(container.clientWidth || 0, 280)
-  const outerHeight = 280
+  const outerHeight = 330
   const width = Math.max(outerWidth - margin.left - margin.right, 120)
   const height = Math.max(outerHeight - margin.top - margin.bottom, 120)
 
@@ -505,6 +505,54 @@ const renderClassGradeChart = (course, container) => {
     .domain([0, 100])
     .range([height, 0])
 
+  const wrapTickLabel = (textSelection, maxWidth, maxLines = 3) => {
+    textSelection.each(function wrap() {
+      const text = d3.select(this)
+      const rawLabel = String(text.text()).trim()
+      const words = rawLabel
+        .split(/\s+/)
+        .flatMap((part) => part.split(/([&+/])/))
+        .map((part) => part.trim())
+        .filter(Boolean)
+
+      const lineHeight = 1.15
+      const x = text.attr('x') || 0
+      const y = text.attr('y') || 0
+      const dy = parseFloat(text.attr('dy') || 0)
+      let line = []
+      let lineNumber = 0
+
+      text.text(null)
+
+      let tspan = text.append('tspan')
+        .attr('x', x)
+        .attr('y', y)
+        .attr('dy', `${dy}em`)
+
+      for (const word of words) {
+        line.push(word)
+        tspan.text(line.join(' '))
+
+        const overflows = tspan.node() && tspan.node().getComputedTextLength() > maxWidth
+        const canWrapMore = line.length > 1 && lineNumber < maxLines - 1
+
+        if (overflows && canWrapMore) {
+          line.pop()
+          tspan.text(line.join(' '))
+          line = [word]
+          lineNumber += 1
+          tspan = text.append('tspan')
+            .attr('x', x)
+            .attr('y', y)
+            .attr('dy', `${lineNumber * lineHeight + dy}em`)
+            .text(word)
+        } else if (overflows && !canWrapMore) {
+          tspan.text(line.join(' '))
+        }
+      }
+    })
+  }
+
   svg.selectAll('rect')
     .data(chartRows)
     .enter()
@@ -519,19 +567,37 @@ const renderClassGradeChart = (course, container) => {
     .attr('transform', `translate(0,${height})`)
     .call(d3.axisBottom(xScale))
     .selectAll('text')
-    .attr('transform', 'rotate(-35)')
-    .style('text-anchor', 'end')
-    .style('font-size', '11px')
+    .attr('x', 0)
+    .attr('y', 10)
+    .attr('dy', '0.35em')
+    .style('text-anchor', 'middle')
+    .style('font-size', outerWidth < 520 ? '12px' : '13px')
+    .style('fill', 'white')
+    .call(wrapTickLabel, Math.max(xScale.bandwidth() - 4, 56), 3)
 
   svg.append('g')
     .call(d3.axisLeft(yScale))
+    .selectAll('text')
+    .style('fill', 'white')
+
+  svg.append('text')
+    .attr('x', width / 2)
+    .attr('y', height + 84)
+    .attr('text-anchor', 'middle')
+    .style('fill', 'white')
+    .style('font-size', '13px')
+    .style('font-weight', '600')
+    .text('Assignments')
 
   svg.append('text')
     .attr('transform', 'rotate(-90)')
-    .attr('y', 0 - margin.left)
+    .attr('y', 0 - margin.left + 8)
     .attr('x', 0 - (height / 2))
     .attr('dy', '1em')
     .style('text-anchor', 'middle')
+    .style('fill', 'white')
+    .style('font-size', '13px')
+    .style('font-weight', '600')
     .text('Percent')
 }
 
@@ -849,32 +915,34 @@ onMounted(() => {
         <input v-model="course.name" type="text" placeholder="Class Name">
       </h2>
 
-      <table border="1" cellpadding="6" cellspacing="0">
-        <thead>
-          <tr>
-            <th>Assignment</th>
-            <th>Score</th>
-            <th>Weight (%)</th>
-            <th>Remove</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(assignment, assignmentIndex) in course.assignments" :key="assignment.id">
-            <td>
-              <input v-model="assignment.title" type="text" placeholder="Assignment name">
-            </td>
-            <td>
-              <input v-model="assignment.score" type="number" min="0" max="100" step="0.01" placeholder="0-100">
-            </td>
-            <td>
-              <input v-model="assignment.weight" type="number" min="0" step="0.01" placeholder="0">
-            </td>
-            <td>
-              <button type="button" @click="removeAssignment(courseIndex, assignmentIndex)">Remove</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="table-scroll">
+        <table border="1" cellpadding="6" cellspacing="0" class="responsive-table">
+          <thead>
+            <tr>
+              <th>Assignment</th>
+              <th>Score</th>
+              <th>Weight (%)</th>
+              <th>Remove</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(assignment, assignmentIndex) in course.assignments" :key="assignment.id">
+              <td>
+                <input v-model="assignment.title" type="text" placeholder="Assignment name">
+              </td>
+              <td>
+                <input v-model="assignment.score" class="score-input" type="number" min="0" max="100" step="0.01" placeholder="0-100">
+              </td>
+              <td>
+                <input v-model="assignment.weight" class="weight-input" type="number" min="0" step="0.01" placeholder="0">
+              </td>
+              <td>
+                <button type="button" @click="removeAssignment(courseIndex, assignmentIndex)">Remove</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
       <div class="button-row">
         <button type="button" @click="addAssignment(courseIndex)">Add Assignment</button>
@@ -1011,6 +1079,20 @@ input:focus {
   box-shadow: 0 0 0 3px rgba(124, 77, 255, 0.18);
 }
 
+.score-input {
+  width: 100%;
+  min-width: 140px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.weight-input {
+  width: 100%;
+  min-width: 96px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
 button {
   border: none;
   padding: 0.8rem 1.1rem;
@@ -1033,6 +1115,38 @@ table {
   border-radius: 16px;
   overflow: hidden;
   background: rgba(255, 255, 255, 0.05);
+}
+
+.responsive-table {
+  table-layout: fixed;
+  width: 100%;
+  min-width: 0;
+}
+
+.responsive-table th:nth-child(1),
+.responsive-table td:nth-child(1) {
+  width: 42%;
+}
+
+.responsive-table th:nth-child(2),
+.responsive-table td:nth-child(2) {
+  width: 16%;
+}
+
+.responsive-table th:nth-child(3),
+.responsive-table td:nth-child(3) {
+  width: 18%;
+}
+
+.responsive-table th:nth-child(4),
+.responsive-table td:nth-child(4) {
+  width: 24%;
+}
+
+.table-scroll {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 th,
@@ -1084,14 +1198,21 @@ progress {
     padding: 1rem;
   }
 
-  table {
-    display: block;
-    overflow-x: auto;
+  .responsive-table {
+    min-width: 640px;
   }
 
   input,
   button {
     width: 100%;
+  }
+
+  .score-input {
+    min-width: 84px;
+  }
+
+  .weight-input {
+    min-width: 72px;
   }
 }
 </style>
