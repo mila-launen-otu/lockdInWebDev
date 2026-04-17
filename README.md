@@ -20,6 +20,14 @@ HOW TO RUN
 run backend (the server) by saying some stuff liek "node server.js"
 run frontend
 ```
+
+HOW TO RUN vitepress documentation site on LockdIn²
+```
+cd vitepress
+npm install
+npm run docs:dev
+```
+
 **What is this:** LockdIn is an online studying platform where you can connect with multiple people, coming together to: 
 - Share homework questions
 - Answer homework questions
