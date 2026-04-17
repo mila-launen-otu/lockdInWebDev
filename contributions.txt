@@ -1,0 +1,34 @@
+Mila:
+- Built NavBar.vue — responsive navbar component
+- Set up Vue Router with all page routes
+- Built Chat.vue — real-time Socket.IO messaging
+- Built Questions.vue — Q&A board with localStorage persistence
+- Connected frontend and backend via Socket.IO server
+- Made promo video walkthrough
+
+Klein
+- Created a Grade Calculator Vue page for users to calculate grades by adding/removing classes, creating/editing assignments and saving class data.
+- Implemented D3 charts rendered as SVG  to visualize each class grades.
+- Implemented HTML tables, buttons and inputs.
+- Created scrolling, highlighting and button feedback using jQuery
+- Dynamically render classes & assignments after adding/saving/removing assignments for Dynamic DOM.
+- Implemented the Grades page using axios to load CSV grades with AJAX and web services.
+
+Tomasz
+- Created an interactive whiteboard page using Vue.
+- Styled the whiteboard UI and implemented multi-client drawing sync.
+- Implemented SVG requirement.
+- Created lockin branding assets.
+
+Erica
+- Created and configured the VitePress documentation website
+- Wrote home page, features, how-to-run, and about pages
+- Configured custom theme with brand colours
+- Light/dark mode support
+- Configured VitePress navigation and routing
+
+Kendra
+- Designed and styled UI (chat, questions, grades, etc.)
+- Implemented layout structure using Vue components and CSS
+- Fixed UI/UX issues
+- Wrote and organized project README with setup instructions
