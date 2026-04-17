@@ -59,13 +59,6 @@ Open the link shown in the terminal (usually http://localhost:5173)
 
 ---
 
-## Notes
-- Chat and Questions features run on the same backend server  
-- Data is partially stored using browser localStorage  
-- Socket.IO enables real-time communication between users  
-
----
-
 ## Documentation (VitePress)
 
 To run the documentation site:
