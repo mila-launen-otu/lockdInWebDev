@@ -37,7 +37,7 @@ const currentUsername = computed(() => getCurrentUsername() || 'Not logged in')
 const createAssignment = (assignment = {}) => ({
   id: assignment.id || `assignment-${assignmentCounter.value++}`,
   title: assignment.title ?? '',
-  score: assignment.score ?? '',
+  grade: assignment.grade ?? '',
   weight: assignment.weight ?? '0'
 })
 
@@ -351,7 +351,7 @@ const buildCourseChart = (course) => {
 
   for (const assignment of course.assignments) {
     const title = String(assignment.title || '').trim()
-    const score = toNumber(assignment.score)
+    const grade = toNumber(assignment.grade)
     const weight = toNumber(assignment.weight)
 
     if (!title) {
@@ -362,9 +362,9 @@ const buildCourseChart = (course) => {
       }
     }
 
-    if (score === null || score < 0 || score > 100) {
+    if (grade === null || grade < 0 || grade > 100) {
       return {
-        error: `Assignment "${title}" needs a score from 0 to 100.`,
+        error: `Assignment "${title}" needs a grade from 0 to 100.`,
         savedChart: null,
         className
       }
@@ -380,13 +380,13 @@ const buildCourseChart = (course) => {
 
     chartRows.push({
       title,
-      score,
+      grade,
       weight,
-      percent: score,
-      weightedContribution: (score * weight) / 100
+      percent: grade,
+      weightedContribution: (grade * weight) / 100
     })
 
-    weightedSum += score * weight
+    weightedSum += grade * weight
     totalWeight += weight
   }
 
@@ -424,7 +424,7 @@ const applyLoadedClasses = (rows, hasWeightColumn) => {
   for (const row of rows) {
     const className = String(row.class || '').trim() || 'Untitled Class'
     const assignmentTitle = String(row.assignment || '').trim()
-    const score = String(row.score || '').trim()
+    const grade = String(row.grade || '').trim()
     const weight = hasWeightColumn ? String(row.weight || '').trim() : ''
 
     if (!groupedClasses.has(className)) {
@@ -433,7 +433,7 @@ const applyLoadedClasses = (rows, hasWeightColumn) => {
 
     groupedClasses.get(className).push({
       title: assignmentTitle,
-      score,
+      grade,
       weight
     })
   }
@@ -443,7 +443,7 @@ const applyLoadedClasses = (rows, hasWeightColumn) => {
   for (const [className, assignments] of groupedClasses.entries()) {
     const normalizedAssignments = assignments.map((assignment) => ({
       title: assignment.title,
-      score: assignment.score,
+      grade: assignment.grade,
       weight: assignment.weight
     }))
 
@@ -655,7 +655,7 @@ const saveCourseToCsv = async (course) => {
     className: currentName,
     assignments: course.savedChart.rows.map((assignment) => ({
       title: assignment.title,
-      score: assignment.score,
+      grade: assignment.grade,
       weight: assignment.weight
     }))
   })
@@ -663,20 +663,20 @@ const saveCourseToCsv = async (course) => {
   course.sourceName = currentName
 }
 
-const getPerformanceBand = (score) => {
-  if (score >= 90) {
+const getPerformanceBand = (grade) => {
+  if (grade >= 90) {
     return 'A'
   }
 
-  if (score >= 80) {
+  if (grade >= 80) {
     return 'B'
   }
 
-  if (score >= 70) {
+  if (grade >= 70) {
     return 'C'
   }
 
-  if (score >= 60) {
+  if (grade >= 60) {
     return 'D'
   }
 
@@ -697,13 +697,13 @@ const getClassDistribution = () => {
     }
 
     for (const assignment of course.assignments) {
-      const score = toNumber(assignment.score)
+      const grade = toNumber(assignment.grade)
 
-      if (score === null) {
+      if (grade === null) {
         continue
       }
 
-      distribution[className][getPerformanceBand(score)] += 1
+      distribution[className][getPerformanceBand(grade)] += 1
     }
   }
 
@@ -920,7 +920,7 @@ onMounted(() => {
           <thead>
             <tr>
               <th>Assignment</th>
-              <th>Score</th>
+              <th>Grade</th>
               <th>Weight (%)</th>
               <th>Remove</th>
             </tr>
@@ -931,7 +931,7 @@ onMounted(() => {
                 <input v-model="assignment.title" type="text" placeholder="Assignment name">
               </td>
               <td>
-                <input v-model="assignment.score" class="score-input" type="number" min="0" max="100" step="0.01" placeholder="0-100">
+                <input v-model="assignment.grade" class="grade-input" type="number" min="0" max="100" step="0.01" placeholder="0-100">
               </td>
               <td>
                 <input v-model="assignment.weight" class="weight-input" type="number" min="0" step="0.01" placeholder="0">
@@ -1079,7 +1079,7 @@ input:focus {
   box-shadow: 0 0 0 3px rgba(124, 77, 255, 0.18);
 }
 
-.score-input {
+.grade-input {
   width: 100%;
   min-width: 140px;
   max-width: 100%;
@@ -1207,7 +1207,7 @@ progress {
     width: 100%;
   }
 
-  .score-input {
+  .grade-input {
     min-width: 84px;
   }
 

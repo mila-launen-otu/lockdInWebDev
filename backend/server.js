@@ -187,7 +187,7 @@ const writeGradesCsv = async (rows) => {
       username,
       class: className,
       assignment: String(row.assignment || '').trim(),
-      score: String(row.score || '').trim(),
+      grade: String(row.grade || '').trim(),
       weight: String(row.weight || '').trim()
     })
   }
@@ -216,14 +216,14 @@ const writeGradesCsv = async (rows) => {
     }
   }
 
-  const csvLines = ['username,class,assignment,score,weight']
+  const csvLines = ['username,class,assignment,grade,weight']
 
   for (const row of normalizedRows) {
     csvLines.push([
       row.username,
       row.class,
       row.assignment,
-      row.score,
+      row.grade,
       row.weight
     ].map(escapeCsvValue).join(','))
   }
@@ -264,7 +264,7 @@ app.post('/api/grades', async (req, res) => {
       username,
       class: currentName,
       assignment: String(assignment.title || '').trim(),
-      score: String(assignment.score ?? '').trim(),
+      grade: String(assignment.grade ?? '').trim(),
       weight: String(assignment.weight ?? '').trim()
     }))
 
