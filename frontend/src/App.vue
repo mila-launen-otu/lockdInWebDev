@@ -31,6 +31,7 @@
     
     <NavBar />
     <router-view />
+    
   </div>
 
 </template>

@@ -335,6 +335,11 @@ io.on('connection', (socket) => {
     console.log('user disconnected', socket.id);
   });
 
+  socket.on('update_answer', (data) => {
+    console.log('Answer updated:', data);
+    io.emit('answer_updated', data); // broadcast to ALL clients
+  });
+
   socket.on('send_messageQA', (data) => {
   console.log("QA: ",data.subject, data.question, data.answer, data.message, data.user)
 
