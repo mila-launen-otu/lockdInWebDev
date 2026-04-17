@@ -20,7 +20,6 @@ The main contributions of each team member are outlined below (not including the
     <li>Built <strong>Chat.vue</strong> — real-time Socket.IO messaging</li>
     <li>Built <strong>Questions.vue</strong> — Q&A board with localStorage persistence</li>
     <li>Connected frontend and backend via Socket.IO server</li>
-    <li>Authored project README</li>
     <li>Made promo video walkthrough</li>
   </ul>
 </div>
