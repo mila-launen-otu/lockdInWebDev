@@ -4,10 +4,6 @@ user1,Analysis and Design of Algorithms,Quiz 2,76.5,25
 user1,Analysis and Design of Algorithms,Assignment 1,100,10
 user1,Analysis and Design of Algorithms,Assignment 2,98.88,10
 user1,Analysis and Design of Algorithms,Final Exam,80.5,15
-user1,Simulation and Modelling,Assignment 1,50,25
-user1,Simulation and Modelling,Assignment 2,90,25
-user1,Simulation and Modelling,Midterm,67,25
-user1,Simulation and Modelling,Final Exam,92,25
 user1,Computer Vision,Labs,85,25
 user1,Computer Vision,Midterm,88,25
 user1,Computer Vision,Final Project,95,25
@@ -41,3 +37,7 @@ user2,Differential Equations,Midterm,84.28,25
 user2,Differential Equations,Assignments + Presentations,97.72,15
 user2,Differential Equations,Quizzes,67,10
 user2,Differential Equations,Final Exam,80,50
+user1,Simulation and Modelling,Assignment 1,50,25
+user1,Simulation and Modelling,Assignment 2,90,25
+user1,Simulation and Modelling,Midterm,67,25
+user1,Simulation and Modelling,Final Exam,92,25

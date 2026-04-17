@@ -10,9 +10,10 @@ OPTION + C to stop servers
 -->
 
 <script setup>
-import { computed, reactive, ref, onMounted, nextTick } from 'vue'
+import { computed, reactive, ref, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import axios from 'axios'
 import * as d3 from 'd3'
+import $ from 'jquery'
 import { userState } from './state/user'
 
 const classNameInput = ref('')
@@ -27,6 +28,7 @@ const csvGrades = reactive({
 })
 const backendBaseUrl = 'http://localhost:3000'
 const classChartContainers = reactive({})
+const gradesPageElement = ref(null)
 
 const getCurrentUsername = () => {
   return String(userState.username || localStorage.getItem('username') || '').trim()
@@ -839,13 +841,58 @@ const saveClass = async (courseIndex) => {
   }
 }
 
+const attachJqueryEnhancements = () => {
+  const root = gradesPageElement.value
+  if (!root) {
+    return
+  }
+
+  const $page = $(root)
+
+  $page.on('click.jqueryEnhance', '.add-class-btn', async () => {
+    await nextTick()
+    const $lastClassCard = $page.find('.class-card').last()
+
+    if (!$lastClassCard.length) {
+      return
+    }
+
+    $('html, body').stop().animate({
+      scrollTop: Math.max(($lastClassCard.offset()?.top || 0) - 24, 0)
+    }, 360)
+
+    $lastClassCard.addClass('jq-flash')
+    setTimeout(() => {
+      $lastClassCard.removeClass('jq-flash')
+    }, 520)
+  })
+
+  $page.on('click.jqueryEnhance', '.save-class-btn', function onSaveClassClick() {
+    const $button = $(this)
+    $button.addClass('jq-clicked')
+    setTimeout(() => {
+      $button.removeClass('jq-clicked')
+    }, 180)
+  })
+}
+
 onMounted(() => {
+  attachJqueryEnhancements()
   loadGradesFromCsv()
+})
+
+onBeforeUnmount(() => {
+  const root = gradesPageElement.value
+  if (!root) {
+    return
+  }
+
+  $(root).off('.jqueryEnhance')
 })
 </script>
 
 <template>
-  <main class="grades-page">
+  <main ref="gradesPageElement" class="grades-page">
     <div class="glass-panel top-summary">
     <h1>Grades</h1>
     <p>Showing grades for: {{ currentUsername }}</p>
@@ -900,7 +947,7 @@ onMounted(() => {
     <div class="glass-panel add-class-row">
       <label for="new-class-name">Add New Class: </label>
       <input id="new-class-name" v-model="classNameInput" type="text" placeholder="e.g. Web Dev">
-      <button type="button" @click="addClass">Add New Class</button>
+      <button type="button" class="add-class-btn" @click="addClass">Add New Class</button>
     </div>
 
     <hr>
@@ -946,7 +993,7 @@ onMounted(() => {
 
       <div class="button-row">
         <button type="button" @click="addAssignment(courseIndex)">Add Assignment</button>
-        <button type="button" @click="saveClass(courseIndex)">Save</button>
+        <button type="button" class="save-class-btn" @click="saveClass(courseIndex)">Save</button>
       </div>
 
       <p v-if="course.error" class="error-text">{{ course.error }}</p>
@@ -1170,6 +1217,26 @@ tr:nth-child(even) td {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+}
+
+.jq-flash {
+  animation: jqFlash 0.52s ease;
+}
+
+.jq-clicked {
+  transform: scale(0.98);
+}
+
+@keyframes jqFlash {
+  0% {
+    box-shadow: 0 0 0 rgba(127, 240, 200, 0);
+  }
+  50% {
+    box-shadow: 0 0 0 4px rgba(127, 240, 200, 0.34);
+  }
+  100% {
+    box-shadow: 0 0 0 rgba(127, 240, 200, 0);
+  }
 }
 
 .error-text {
